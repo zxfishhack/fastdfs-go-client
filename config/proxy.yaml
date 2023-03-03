@@ -1,0 +1,5 @@
+tracker:
+  listen: 0.0.0.0:12345
+storage:
+- upstream: 172.25.21.96
+  downstream: 127.0.0.1
