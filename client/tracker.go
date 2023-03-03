@@ -6,6 +6,7 @@ import (
 	"github.com/lunixbochs/struc"
 	. "github.com/zxfishhack/fastdfs-go-client/proto"
 	"github.com/zxfishhack/fastdfs-go-client/util"
+	"gopkg.in/fatih/pool.v2"
 	"net"
 	"strings"
 )
