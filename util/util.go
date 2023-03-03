@@ -8,13 +8,12 @@ import (
 	"fmt"
 	"github.com/lunixbochs/struc"
 	"github.com/zxfishhack/fastdfs-go-client/proto"
+	"gopkg.in/fatih/pool.v2"
 	"io"
 	"net"
+	"syscall"
 	"time"
 )
-
-// #include <string.h>
-import "C"
 
 var (
 	opts = &struc.Options{
@@ -31,7 +30,7 @@ type Reader interface {
 }
 
 func GetErr(status int) error {
-	return fmt.Errorf("server response status: %s", C.GoString(C.strerror(C.int(status))))
+	return fmt.Errorf("server response status: %s", syscall.Errno(status).Error())
 }
 
 func Call(nc net.Conn, data interface{}, r Reader) (recvBuf []byte, status int, err error) {

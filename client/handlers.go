@@ -5,12 +5,10 @@ import (
 	"github.com/lunixbochs/struc"
 	. "github.com/zxfishhack/fastdfs-go-client/proto"
 	"github.com/zxfishhack/fastdfs-go-client/util"
+	"gopkg.in/fatih/pool.v2"
 	"net"
 	"strings"
 )
-
-// #include <errno.h>
-import "C"
 
 func (p *TrackerProxy) getString(c net.Conn, length int) (str string, err error) {
 	var buf []byte

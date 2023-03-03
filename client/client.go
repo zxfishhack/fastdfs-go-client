@@ -3,6 +3,7 @@ package client
 import (
 	"context"
 	"github.com/zxfishhack/fastdfs-go-client/util"
+	"gopkg.in/fatih/pool.v2"
 	"io"
 	"net"
 	"strings"

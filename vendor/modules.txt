@@ -19,6 +19,9 @@ go.uber.org/zap/zapcore
 # golang.org/x/sync v0.1.0
 ## explicit
 golang.org/x/sync/errgroup
+# gopkg.in/fatih/pool.v2 v2.0.0
+## explicit
+gopkg.in/fatih/pool.v2
 # gopkg.in/natefinch/lumberjack.v2 v2.2.1
 ## explicit; go 1.13
 gopkg.in/natefinch/lumberjack.v2
