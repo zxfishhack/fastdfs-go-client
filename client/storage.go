@@ -44,12 +44,12 @@ func NewStorageClient(client *TrackerClient) (c *StorageClient) {
 	}
 }
 
-func (c *StorageClient) Upload(groupName, fileExtName string, appId, length int, r io.Reader, metas []*MetaData) (*FileResult, error) {
-	return c.upload(StorageProtoCmdUploadFile, groupName, "", "", fileExtName, appId, length, r, metas)
+func (c *StorageClient) Upload(groupName, fileExtName string, appId, timeId, length int, r io.Reader, metas []*MetaData) (*FileResult, error) {
+	return c.upload(StorageProtoCmdUploadFile, groupName, "", "", fileExtName, appId, timeId, length, r, metas)
 }
 
-func (c *StorageClient) UploadAppender(groupName, fileExtName string, appId, length int, r io.Reader, metas []*MetaData) (*FileResult, error) {
-	return c.upload(StorageProtoCmdUploadAppenderFile, groupName, "", "", fileExtName, appId, length, r, metas)
+func (c *StorageClient) UploadAppender(groupName, fileExtName string, appId, timeId, length int, r io.Reader, metas []*MetaData) (*FileResult, error) {
+	return c.upload(StorageProtoCmdUploadAppenderFile, groupName, "", "", fileExtName, appId, timeId, length, r, metas)
 }
 
 func (c *StorageClient) UploadSlaveWithFileId(fileId, prefixName, fileExtName string, length int, r io.Reader, metas []*MetaData) (*FileResult, error) {
@@ -61,10 +61,10 @@ func (c *StorageClient) UploadSlaveWithFileId(fileId, prefixName, fileExtName st
 }
 
 func (c *StorageClient) UploadSlave(groupName, masterFileName, prefixName, fileExtName string, length int, r io.Reader, metas []*MetaData) (*FileResult, error) {
-	return c.upload(StorageProtoCmdUploadSlaveFile, groupName, masterFileName, prefixName, fileExtName, 0, length, r, metas)
+	return c.upload(StorageProtoCmdUploadSlaveFile, groupName, masterFileName, prefixName, fileExtName, 0, 0, length, r, metas)
 }
 
-// 使用Timed TRUNK时，以下接口无法使用
+// CreateLink 使用Timed TRUNK时，以下接口无法使用
 func (c *StorageClient) CreateLink(masterFileName, srcFileName, srcFileSig, groupName, prefixName, fileExtName string) (res *FileResult, err error) {
 	req := &CreateLinkFile{
 		Header: Header{
@@ -539,7 +539,7 @@ func (c *StorageClient) GetTimedStorageStatus() (res *TimedStorageStatus, groups
 }
 
 func (c *StorageClient) upload(cmd int, groupName, masterFileName, prefixName, fileExtName string,
-	appId, length int, r io.Reader, metas []*MetaData) (res *FileResult, err error) {
+	appId, timeId, length int, r io.Reader, metas []*MetaData) (res *FileResult, err error) {
 	storePathIndex := -1
 	reader := &reader{Reader: r, len: length}
 	uploadSlave := len(groupName) > 0 && len(masterFileName) > 0
@@ -576,7 +576,8 @@ func (c *StorageClient) upload(cmd int, groupName, masterFileName, prefixName, f
 				PkgLen: 1 + PkgLenSize + FileExtNameMaxLen + length + AppIdSize,
 				Cmd:    cmd,
 			},
-			AppId:          appId,
+			AppID:          appId,
+			TimeID:         timeId,
 			FileSize:       length,
 			StorePathIndex: storePathIndex,
 			FileExtName:    fileExtName,

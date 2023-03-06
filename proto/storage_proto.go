@@ -45,7 +45,8 @@ type UploadSlave struct {
 type UploadFile struct {
 	Header
 	StorePathIndex int    `struc:"byte"`
-	AppId          int    `struc:"int32"`
+	AppID          int    `struc:"int32"`
+	TimeID         int    `struc:"int32"`
 	FileSize       int    `struc:"int64"`
 	FileExtName    string `struc:"[6]byte"` //FileExtNameMaxLen
 }
